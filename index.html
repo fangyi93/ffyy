@@ -128,6 +128,24 @@ body {
 }
 </style>
 <script>
+    
+document.addEventListener('DOMContentLoaded', function() {
+  var button = document.getElementById('submitButton');
+  
+  button.addEventListener('click', function() {
+    // 禁用按钮
+    this.disabled = true;
+    // 改变按钮的样式，例如变灰
+    this.style.opacity = '0.5';
+    // 这里可以添加其他需要执行的代码
+    calculateResults1();
+  });
+});
+
+function calculateResults1() {
+  // 这里是你的计算逻辑
+  console.log('按钮已被点击，正在执行计算...');
+}
 function calculateResults() {
     var answers = document.querySelectorAll('input[type="radio"]:checked');
     var results = {"松散": 0, "健康": 0, "僵硬": 0};
@@ -162,19 +180,18 @@ function calculateResults() {
                     "1": "A僵硬 B松散 C健康",
                     "2": "A松散 B健康 C僵硬",
                     "3": "A松散 B健康 C僵硬",
-                    "4": "A松散 B健康 C僵硬",
-                    "5": "A松散 B僵硬 C健康",
+                    "4": "A松散 B僵硬 C健康",
+                    "5": "A松散 B健康 C僵硬",
                     "6": "A松散 B健康 C僵硬",
                     "7": "A松散 B健康 C僵硬",
-                    "8": "A松散 B健康 C僵硬",
-                    "9": "A僵硬 B健康 C 松散",
-                    "10": "A松散 B健康 C僵硬",
-                    "11": "A健康 B松散 C僵硬",
-                    "12": "A松散 B僵硬 C健康",
-                    "13": "A健康 B松散 C僵硬",
-                    "14": "A僵硬 B松散 C健康",
-                    "15": "A松散 B僵硬 C健康",
-                    "16": "A松散 B健康 C僵硬"
+                    "8": "A僵硬 B健康 C 松散",
+                    "9": "A松散 B健康 C僵硬",
+                    "10": "A健康 B松散 C僵硬",
+                    "11": "A松散 B僵硬 C健康",
+                    "12": "A健康 B松散 C僵硬",
+                    "13": "A僵硬 B松散 C健康",
+                    "14": "A松散 B僵硬 C健康",
+                    "15": "A松散 B健康 C僵硬"
                     // 请继续这个模式，为所有16个问题填写正确的类型
                     };
     for (var i = 0; i < answers.length; i++) {
@@ -334,7 +351,7 @@ function calculateResults() {
         <input type="radio" name="question16" value="C"> C 不，事实上在工作中通常是我把别人说的哑口无言，甚至不给别人说话的机会。
         <br>
     </div>
-    <input type="button" value="提交" onclick="calculateResults()">
+    <input type="button" value="提交" id="submitButton" onclick="calculateResults()">
 </form>
 <div id="result">
     结果将在这里显示--
