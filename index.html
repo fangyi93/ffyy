@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>边界测试测评</title>
+
+<style>
+    body {
+    font-family: 'Open Sans', Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 40px;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 1.5em;
+    color: #555;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.question {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.question p {
+    font-size: 1.3em;
+    color: rgb(2, 0, 14); 
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+input[type="button"] {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #5cb85c;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="button"]:hover {
+    background-color: #4cae4c;
+}
+
+#result {
+    margin-top: 20px;
+    padding: 20px;
+    background: #e9ecef;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* 简单的动画效果 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#result {
+    animation: fadeIn 1s ease;
+}
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+.question {
+    margin-bottom: 15px;
+}
+.result-container {
+    text-align: center;
+    padding: 20px;
+    background: #e9ecef;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+.result-container h3 {
+    color: #333;
+    margin: 10px 0;
+    font-size: 1.5em;
+}
+
+.result-container h3:first-child {
+    margin-top: 0;
+}
+.highlight-orange {
+    color: orange; 
+}
+</style>
+<script>
+function calculateResults() {
+    var answers = document.querySelectorAll('input[type="radio"]:checked');
+    var results = {"松散": 0, "健康": 0, "僵硬": 0};
+    for (var i = 0; i < answers.length; i++) {
+        var questionNumber = parseInt(answers[i].name.replace('question', ''), 10);
+        switch (answers[i].value) {
+            case 'A':
+                if ([1, 3, 4,5, 6, 7, 8, 10, 12, 15, 16].includes(questionNumber)) results["松散"]++;
+                if ([2, 9, 14].includes(questionNumber)) results["僵硬"]++;
+                if ([11, 13].includes(questionNumber)) results["健康"]++;
+                break;
+            case 'B':
+                if ([3, 4,6, 7, 8,9,10, 16].includes(questionNumber)) results["健康"]++;
+                if ([2, 11, 13,14].includes(questionNumber)) results["松散"]++;
+                if ([1,5, 12, 15].includes(questionNumber)) results["僵硬"]++;
+                break;
+            case 'C':
+                if ([3, 4,  6, 7, 8, 10, 11, 13, 16].includes(questionNumber)) results["僵硬"]++;
+                if ([9].includes(questionNumber)) results["松散"]++;
+                if ([1,2,5, 12, 14,15].includes(questionNumber)) results["健康"]++;
+                break;
+        }
+    }
+    var resultText = "您的测评结果如下：";
+    resultText += "<div class='result-container'>" +
+                   "<h3>松散: " + results["松散"] + "</h3>" +
+                   "<h3>健康: " + results["健康"] + "</h3>" +
+                   "<h3>僵硬: " + results["僵硬"] + "</h3>" +
+                   "</div>";
+                   var answerTypes = {
+                    "0": "A松散 B僵硬 C健康",
+                    "1": "A僵硬 B松散 C健康",
+                    "2": "A松散 B健康 C僵硬",
+                    "3": "A松散 B健康 C僵硬",
+                    "4": "A松散 B健康 C僵硬",
+                    "5": "A松散 B僵硬 C健康",
+                    "6": "A松散 B健康 C僵硬",
+                    "7": "A松散 B健康 C僵硬",
+                    "8": "A松散 B健康 C僵硬",
+                    "9": "A僵硬 B健康 C 松散",
+                    "10": "A松散 B健康 C僵硬",
+                    "11": "A健康 B松散 C僵硬",
+                    "12": "A松散 B僵硬 C健康",
+                    "13": "A健康 B松散 C僵硬",
+                    "14": "A僵硬 B松散 C健康",
+                    "15": "A松散 B僵硬 C健康",
+                    "16": "A松散 B健康 C僵硬"
+                    // 请继续这个模式，为所有16个问题填写正确的类型
+                    };
+    for (var i = 0; i < answers.length; i++) {
+        
+        var resultText1 = answerTypes[i];
+        var resultElement = document.createElement('div');
+        resultElement.className = 'highlight-orange'; // 添加类名
+        resultElement.textContent = "答案解析：" + resultText1;
+        answers[i].parentElement.appendChild(resultElement);
+    }
+    document.getElementById('result').innerHTML = resultText;
+}
+</script>
+<h1>边界测试</h1>
+</head>
+<body>
+    
+<form id="evaluationForm">
+    <div class="question">
+        <p>1. 你总是口是心非，嘴上答应，心里却拒绝。</p>
+        <input type="radio" name="question1" value="A"> A 是的，我经常这样。
+        <br>
+        <input type="radio" name="question1" value="B"> B 我会拒绝，并解释拒绝的理由。
+        <br>
+        <input type="radio" name="question1" value="C"> C 我通常直接拒绝对方。
+        <br>
+    </div>
+    <div class="question">
+        <p>2、	我觉得自己总在帮助身边的人收拾烂摊子。</p>
+        <input type="radio" name="question2" value="A"> A 不，我从不掺合别人的事情。
+        <br>
+        <input type="radio" name="question2" value="B"> B 是的，经常。
+        <br>
+        <input type="radio" name="question2" value="C"> C 不，我会根据自己的能力在方便的时候为对方提供帮助。
+        <br>
+    </div>
+    <div class="question">
+        <p>3. 我经常陷入毫无意义的争吵或辩论。</p>
+        <input type="radio" name="question3" value="A"> A 是的。
+        <br>
+        <input type="radio" name="question3" value="B"> B 不，我从不跟人争吵或辩论。
+        <br>
+        <input type="radio" name="question3" value="C"> C 不，我会刻意与他人保持距离。
+    </div>
+    
+    <div class="question">
+        <p>4. 我经常因为同情，内疚或被逼无奈而借钱给亲友。</p>
+        <input type="radio" name="question4" value="A"> A 是的。
+        <br>
+        <input type="radio" name="question4" value="B"> B 不，我借钱给别人时会明确要求对方何时还钱。
+        <br>
+        <input type="radio" name="question4" value="C"> C 不，我不信任别人，我一分钱都不舍得借出去。
+    </div>
+    <div class="question">
+        <p>5. 我经常感觉工作压力大。</p>
+        <input type="radio" name="question5" value="A"> A 是的。
+        <br>
+        <input type="radio" name="question5" value="B"> B 不，我从不关心工作。
+        <br>
+        <input type="radio" name="question5" value="C"> C 不，我一回到家就关闭消息通知：不接和不回跟工作相关的电话，短信和邮件，尽量多和家人朋友在一起或享受自己的私人时间。若遇到紧急或接手了一个复杂的项目，界限就会相对宽松一些，但仍然不会花太多的时间去处理工作。
+    </div>
+    
+    <div class="question">
+        <p>6. 我觉得自己在社交媒体上花了太多时间。</p>
+        <input type="radio" name="question6" value="A"> A 是的。
+        <br>
+        <input type="radio" name="question6" value="B"> B 不，我喜欢偶尔查看一下社交媒体，但不会看个不停。
+        <br>
+        <input type="radio" name="question6" value="C"> C 我只在特定的日期和时间登录某个社交媒体账号处理工作上的事，完成之后就立即在手机上退出该应用程序。
+    </div>
+    
+    <div class="question">
+        <p>7. 我每次拒绝别人时都会感到内疚。</p>
+        <input type="radio" name="question7" value="A"> A 是的，我会。
+        <br>
+        <input type="radio" name="question7" value="B"> B 不，我不会。
+        <br>
+        <input type="radio" name="question7" value="C"> C 不，我从不在乎别人怎么想，我很讨厌/生气/沮丧被别人呼来唤去。
+    </div>
+    <div class="question">
+        <p>8. 我总是被动员去做一些自己不想做的事或承担一些不想承接的义务。</p>
+        <input type="radio" name="question8" value="A"> A 是的。
+        <br>
+        <input type="radio" name="question8" value="B"> B 不，我不会。
+        <br>
+        <input type="radio" name="question8" value="C"> C 不，大家都知道不要叫我干这干那。
+    </div>
+    
+    <div class="question">
+        <p>9. 我不信任别人。</p>
+        <input type="radio" name="question9" value="A"> A 是的。
+        <br>
+        <input type="radio" name="question9" value="B"> B 我只对一部分人不信任。
+        <br>
+        <input type="radio" name="question9" value="C"> C 不，我相信所有人，但有时会因此而吃亏。
+    </div>
+    
+    <div class="question">
+        <p>10. 我总是不等时机成熟就跟别人分享太多的个人信息。</p>
+        <input type="radio" name="question10" value="A"> A 是的。
+        <br>
+        <input type="radio" name="question10" value="B"> B 不，我不会。
+        <br>
+        <input type="radio" name="question10" value="C"> C 因为我信任别人，所以从不跟别人分享个人信息。
+    </div>
+    
+    <div class="question">
+        <p>11. 我可以坦然接受别人的拒绝，从不往心里去。</p>
+        <input type="radio" name="question11" value="A"> A 是的。
+        <br>
+        <input type="radio" name="question11" value="B"> B 不，我会觉得他们在针对我。
+        <br>
+        <input type="radio" name="question11" value="C"> C 我通常不向别人求助，因为我无法信任他们，我认为我做不好的事情别人也照样做不好。
+    </div>
+    
+    <div class="question">
+        <p>12. 受到恶劣对待时，我无法大胆地站出来替自己说话。</p>
+        <input type="radio" name="question12" value="A"> A 是的。
+        <br>
+        <input type="radio" name="question12" value="B"> B 不，我会和对方断交，甚至骂对方，或者到处说对方的坏话。
+        <br>
+        <input type="radio" name="question12" value="C"> C 不，我会告诉对方我的感受。
+    </div>
+    <div class="question">
+        <p>13. 我会因为把时间都留给自己而感到内疚。</p>
+        <input type="radio" name="question13" value="A"> A 不会，因为我知道只有先照顾好自己才有能力照顾他人。
+        <br>
+        <input type="radio" name="question13" value="B"> B 是的。
+        <br>
+        <input type="radio" name="question13" value="C"> C 不会，我一贯把自己的需求放在第一位。
+    </div>
+    
+    <div class="question">
+        <p>14. 我会为不是自己犯的错而道歉。</p>
+        <input type="radio" name="question14" value="A"> A 不，我一般不会犯错。
+        <br>
+        <input type="radio" name="question14" value="B"> B 是的。
+        <br>
+        <input type="radio" name="question14" value="C"> C 不，只有在我必须为某件事负责并且对别人造成伤害的时候，我才会道歉。
+    </div>
+    
+    <div class="question">
+        <p>15. 我常常被很多事务缠身却总感觉时间不够，因此压力很大。</p>
+        <input type="radio" name="question15" value="A"> A 是的。
+        <br>
+        <input type="radio" name="question15" value="B"> B 说实话，我挺清闲的。因为朋友不多，也就没能那么多事情要做，仿佛永远都岁月静好。
+        <br>
+        <input type="radio" name="question15" value="C"> C 不，我知道如何拒绝，也知道如何把任务分配出去或向别人求助，所以不至于分身乏术或压力太大。
+    </div>
+    <!-- 其他问题按照上面的格式添加 -->
+    <div class="question">
+        <p>16. 明知自己的观点很重要，却不敢提出来与大家分享。</p>
+        <input type="radio" name="question16" value="A"> A 是的。
+        <br>
+        <input type="radio" name="question16" value="B"> B 不，因为我知道自己的观点和其他人的一样重要。
+        <br>
+        <input type="radio" name="question16" value="C"> C 不，事实上在工作中通常是我把别人说的哑口无言，甚至不给别人说话的机会。
+        <br>
+    </div>
+    <input type="button" value="提交" onclick="calculateResults()">
+</form>
+<div id="result">
+    结果将在这里显示--
+</div>
+</body>
+</html>
