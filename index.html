@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8">
-<title>边界测试</title>
+<title>边界测试测评</title>
 
 <style>
     @media (max-width: 768px) {
@@ -129,7 +129,7 @@ body {
 </style>
 <script>
     
-document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
   var button = document.getElementById('submitButton');
   
   button.addEventListener('click', function() {
@@ -137,15 +137,50 @@ document.addEventListener('DOMContentLoaded', function() {
     this.disabled = true;
     // 改变按钮的样式，例如变灰
     this.style.opacity = '0.5';
-    // 这里可以添加其他需要执行的代码
-    calculateResults1();
+    
+    // 获取所有问题组，并检查每个问题组内是否至少有一个选项被选中
+    var questionGroups = document.querySelectorAll('.question');
+    var hasUnselected = Array.prototype.some.call(questionGroups, function(group) {
+      var selected = false;
+      var radios = group.querySelectorAll('input[type="radio"]');
+      for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+          selected = true;
+          break; // 找到一个选中的即可
+        }
+      }
+      return !selected;
+    });
+
+    if (hasUnselected) {
+      alert('请确保每道题目都选了一个选项。');
+      this.disabled = false; // 启用按钮
+      this.style.opacity = '1'; // 恢复按钮样式
+      return; // 如果有未选择的题目，退出函数
+    }
+
+    // 如果所有题目都已选择，执行计算结果的函数
+    calculateResults();
   });
 });
 
-function calculateResults1() {
-  // 这里是你的计算逻辑
-  console.log('按钮已被点击，正在执行计算...');
-}
+// document.addEventListener('DOMContentLoaded', function() {
+//   var button = document.getElementById('submitButton');
+  
+//   button.addEventListener('click', function() {
+//     // 禁用按钮
+//     this.disabled = true;
+//     // 改变按钮的样式，例如变灰
+//     this.style.opacity = '0.5';
+//     // 这里可以添加其他需要执行的代码
+//     calculateResults1();
+//   });
+// });
+
+// function calculateResults1() {
+//   // 这里是你的计算逻辑
+//   console.log('按钮已被点击，正在执行计算...');
+// }
 function calculateResults() {
     var answers = document.querySelectorAll('input[type="radio"]:checked');
     var results = {"松散": 0, "健康": 0, "僵硬": 0};
@@ -351,7 +386,7 @@ function calculateResults() {
         <input type="radio" name="question16" value="C"> C 不，事实上在工作中通常是我把别人说的哑口无言，甚至不给别人说话的机会。
         <br>
     </div>
-    <input type="button" value="提交" id="submitButton" onclick="calculateResults()">
+    <input type="button" value="提交" id="submitButton" >
 </form>
 <div id="result">
     结果将在这里显示--
